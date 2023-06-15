@@ -1,13 +1,15 @@
 "use client";
 
 import { getChartData } from "@/utils/chart";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const ChartComponent = () => {
   const [data, setData] = useState<any>(null);
   const updateBarChartDirection = () => {
-    const isDesktopView = window.matchMedia("(min-width: 1024px)").matches;
+    const isDesktopView = window?.matchMedia("(min-width: 1024px)").matches;
     const isHorizontalBarChart = !isDesktopView;
     const tempData = getChartData(isHorizontalBarChart);
     setData(tempData);
@@ -17,12 +19,14 @@ const ChartComponent = () => {
     if (window) {
       window.addEventListener("resize", updateBarChartDirection);
       window.addEventListener("load", updateBarChartDirection);
+      updateBarChartDirection();
     }
-    updateBarChartDirection();
 
     return () => {
-      window.removeEventListener("resize", updateBarChartDirection);
-      window.removeEventListener("load", updateBarChartDirection);
+      if (window) {
+        window.removeEventListener("resize", updateBarChartDirection);
+        window.removeEventListener("load", updateBarChartDirection);
+      }
     };
   }, []);
 
