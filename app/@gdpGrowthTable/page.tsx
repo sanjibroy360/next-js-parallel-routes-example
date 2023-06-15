@@ -8,9 +8,7 @@ const GDPTable = () => {
     <div className="md:w-1/3 w-10/12 mx-auto">
       <table className="w-full my-10 mb-0 mx-auto bg-gray-50">
         <tr>
-          <th className="border shadow p-4 text-center font-bold">
-            Year
-          </th>
+          <th className="border shadow p-4 text-center font-bold">Year</th>
           <th className="border shadow p-4 text-center font-bold">
             GDP Growth
           </th>
@@ -19,7 +17,7 @@ const GDPTable = () => {
           </th>
         </tr>
         {gdpData?.map((data) => (
-          <tr>
+          <tr key={data.year}>
             <td className="border shadow p-4 text-center font-medium">
               {data.year}
             </td>
